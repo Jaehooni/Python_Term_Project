@@ -5,10 +5,10 @@ from bs4 import BeautifulSoup
 
 
 
-def news_Finder(search_Sentence,start,end):
+def news_Finder(search_Sentence,start,end,file_Name):
     
     '''
-    (str,datetime.date,datetime.date(or datetime.datetime)) ---> str
+    (str,datetime.date,datetime.date(or datetime.datetime),str) ---> str
     This function shows the number of news of particular date from start to end.
     
     '''
@@ -50,15 +50,16 @@ def news_Finder(search_Sentence,start,end):
         
         #Copy selecter에 의해 복사된 태그 사이에 들어가는 정보만 가져옴, 여기서는 뉴스 개수만 가져오기 위함임.
         news_number_info = all_news_information.select('#main_pack > div.news.mynews.section._prs_nws > div.section_head > div.title_desc.all_my > span')
-    
-        file = open('')
+
+        #엑셀 차트로 표현하기 위해서 csv 모듈 이용해서 파일 작성
+        file = open('data/'+file_Name+'.csv','w', encoding='euc-kr',newline='')
+        csvWriter = csv.writer(file)
 
         #뉴스 개수가 존재하지 않아 태그에 해당하는 정보가 존재하지 않을 때 0건이라는 내용 출력
         if not news_number_info:
-            print('0건')
-            print('----------------------------')
-            print('')
             
+            csvWriter.writerow([search_Sentence,search_Date,'0건'])
+
 
         #데이터들 중에서 온전히 뉴스 개수만 가져오기 위한 과정
         else:
@@ -69,12 +70,8 @@ def news_Finder(search_Sentence,start,end):
             change_to_news_number = change_to_news_number[1]
             change_to_news_number_2 = change_to_news_number.split('<')
             only_news_number = change_to_news_number_2[0]
-            
 
-
-            print(only_news_number)
-            print('----------------------------')
-            print('')
+            csvWriter.writerow([search_Sentence,search_Date,only_news_number])
 
 
         # 한 과정이 끝날때마다 다음 날짜 뉴스로 넘어가기 위함
