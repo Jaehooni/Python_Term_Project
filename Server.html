@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>뉴스 크롤러</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#submit").click(function(){
+                let tempData = {};
+                tempData.searchWord = $('#searchWord').val();
+                tempData.startDate = $('#startDate').val();
+                tempData.endDate = $('#endDate').val();
+                const data = JSON.stringify(tempData);
+                $.ajax({
+                type:"POST",
+                url:"result",
+                data : data,
+                dataType : "JSON",
+                contentType:'application/json; charset=utf-8',
+                traditional: true,
+                processData: false,
+                success: function(result){
+                    alert('조회가 완료되었습니다.')
+                    $('#result').html(`<img src="/img/${result['fileName']}" style="width:100%; height:auto;">`)
+                },
+                error: function(error){
+                    alert('조회를 실패하였습니다.');
+                }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    
+    <div style="text-align:center;">
+    <h1> Welcome to my news crawler!</h1>
+    </div>
+    <br>
+    <br>
+    <h3>Welcome, <span style = "color:red"><strong>ANYONE</strong></span> can use this website by entering sentence words and period<br>
+        <br>
+        This crawler is based on 'Naver'(Korea's popular portal site)<br>
+        <br>
+        When you enter all parameters(period,search word),This website will show you the graph about your news' trend.<br>
+        <br>
+        This website is made by Jang Jae hoon, 1st grade, Kyung Hee university. This is my Term_project result.
+    </h3>
+    <label for="searchWord">Searh word : </label><input id ="searchWord" placeholder="You had better type one word" style="width:250px;">
+    <br>
+    <label for="startDate">Start date : </label><input id ="startDate" type="date">
+    <br>
+    <label for="endDate">End date : </label><input id ="endDate" type="date">
+    <br>
+    <input id = "submit" type = "button" value = "제출">
+    <br>
+    <div id = "result"></div>
+</body>
+</html>
