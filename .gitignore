@@ -1,4 +1,6 @@
 .ipynb_checkpoints/
 __pycache__/
-Server.zip/
-Server.html/
+Server.zip
+Server.html
+Other files/
+Result.py
